@@ -31,19 +31,19 @@ export const metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-    "Server Components",
-    "Radix UI",
+    "Immobilien Exposé",
+    "Immobilien Vermarktung",
+    "Exposé erstellen",
+    "Exposé Software",
+    "Expose Template",
   ],
   authors: [
     {
-      name: "shadcn",
-      url: "https://shadcn.com",
+      name: "zinom",
+      url: "https://zinomeyer.com",
     },
   ],
-  creator: "shadcn",
+  creator: "zino",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
@@ -77,7 +77,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "bg-background min-h-screen font-sans antialiased",
           fontSans.variable,
           fontHeading.variable
         )}
