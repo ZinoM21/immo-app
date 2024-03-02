@@ -1,8 +1,10 @@
+import Link from "next/link"
 import { redirect } from "next/navigation"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
+import { Button } from "@/components/ui/button"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/header"
 import { ExposeCreateButton } from "@/components/post-create-button"
@@ -20,20 +22,20 @@ export default async function DashboardPage() {
   //   redirect(authOptions?.pages?.signIn || "/login")
   // }
 
-  // const posts = await db.post.findMany({
-  //   where: {
-  //     authorId: user.id,
-  //   },
-  //   select: {
-  //     id: true,
-  //     title: true,
-  //     published: true,
-  //     createdAt: true,
-  //   },
-  //   orderBy: {
-  //     updatedAt: "desc",
-  //   },
-  // })
+  const exposes = await db.expose.findMany({
+    // where: {
+    //   authorId: user.id,
+    // },
+    // select: {
+    //   id: true,
+    //   title: true,
+    //   published: true,
+    //   createdAt: true,
+    // },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  })
 
   return (
     <DashboardShell>
@@ -44,23 +46,28 @@ export default async function DashboardPage() {
         <ExposeCreateButton />
       </DashboardHeader>
       <div>
-        {/* {posts?.length ? (
+        {exposes?.length ? (
           <div className="divide-y divide-border rounded-md border">
-            {posts.map((post) => (
-              <PostItem key={post.id} post={post} />
+            {exposes.map((expose) => (
+              // <PostItem key={post.id} post={post} />
+              <div>
+                {expose.title}
+
+                <Link href={`/exposes/${expose.id}`}>Ansehen</Link>
+              </div>
             ))}
           </div>
-        ) : ( */}
-        <EmptyPlaceholder>
-          <EmptyPlaceholder.Icon name="post" />
-          <EmptyPlaceholder.Title>Noch keine Exposés</EmptyPlaceholder.Title>
-          <EmptyPlaceholder.Description>
-            Sie haben noch keine Exposés erstellt. Erstellen Sie jetzt Ihr
-            erstes.
-          </EmptyPlaceholder.Description>
-          <ExposeCreateButton variant="outline" />
-        </EmptyPlaceholder>
-        {/* )} */}
+        ) : (
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="post" />
+            <EmptyPlaceholder.Title>Noch keine Exposés</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              Sie haben noch keine Exposés erstellt. Erstellen Sie jetzt Ihr
+              erstes.
+            </EmptyPlaceholder.Description>
+            <ExposeCreateButton variant="outline" />
+          </EmptyPlaceholder>
+        )}
       </div>
     </DashboardShell>
   )
