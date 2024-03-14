@@ -5,9 +5,4 @@ export const siteConfig: SiteConfig = {
   description:
     "Exposé Erstellung und Aufzeigen von Vermarktungspotentialen",
   url: "https://equityedge.de",
-  ogImage: "",
-  links: {
-    twitter: "",
-    github: "",
-  },
 }
