@@ -1,14 +1,14 @@
 "use client"
 
-import * as React from "react"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
+import * as React from "react"
 
-import { MainNavItem } from "types"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { MainNavItem } from "types"
 
 interface MainNavProps {
   items?: MainNavItem[]

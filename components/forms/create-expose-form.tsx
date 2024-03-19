@@ -1,23 +1,20 @@
 "use client"
 
-import * as React from "react"
-import { useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
+import * as React from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
-import { cn } from "@/lib/utils"
-import { exposeCreateSchema } from "@/lib/validations/expose"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Icons } from "@/components/icons"
+import { cn } from "@/lib/utils"
+import { exposeCreateSchema } from "@/lib/validations/expose"
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,

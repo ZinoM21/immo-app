@@ -1,15 +1,9 @@
 import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/header"
-import { Icons } from "@/components/icons"
 import { ExposeCreateButton } from "@/components/post-create-button"
 import { DashboardShell } from "@/components/shell"
-import { UserAuthForm } from "@/components/user-auth-form"
 
 export const metadata: Metadata = {
   title: "Exposé erstellen",

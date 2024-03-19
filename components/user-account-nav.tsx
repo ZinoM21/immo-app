@@ -1,8 +1,8 @@
 "use client"
 
-import Link from "next/link"
 import { User } from "next-auth"
 import { signOut } from "next-auth/react"
+import Link from "next/link"
 
 import {
   DropdownMenu,
@@ -23,7 +23,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
       <DropdownMenuTrigger>
         <UserAvatar
           user={{ name: user.name || null, image: user.image || null }}
-          className="h-8 w-8"
+          className="size-8"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

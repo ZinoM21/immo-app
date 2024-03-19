@@ -20,13 +20,9 @@ import {
   Settings,
   SunMedium,
   Trash,
-  Twitter,
   User,
   X,
-  type Icon as LucideIcon,
 } from "lucide-react"
-
-export type Icon = LucideIcon
 
 export const Icons = {
   logo: Command,
@@ -67,6 +63,6 @@ export const Icons = {
       ></path>
     </svg>
   ),
-  twitter: Twitter,
+  twitter: X,
   check: Check,
 }

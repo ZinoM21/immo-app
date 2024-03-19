@@ -1,15 +1,10 @@
 import Link from "next/link"
-import { redirect } from "next/navigation"
 
-import { authOptions } from "@/lib/auth"
-import { db } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
-import { Button } from "@/components/ui/button"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/header"
 import { ExposeCreateButton } from "@/components/post-create-button"
-import { PostItem } from "@/components/post-item"
 import { DashboardShell } from "@/components/shell"
+import { db } from "@/lib/db"
 
 export const metadata = {
   title: "Dashboard",
