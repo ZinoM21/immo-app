@@ -1,9 +1,10 @@
+import { env } from "@/env.mjs"
 import { createAI, getMutableAIState, render } from "ai/rsc"
 import { OpenAI } from "openai"
 import { z } from "zod"
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: env.OPENAI_API_KEY,
 })
 
 // An example of a spinner component. You can also import your own components,
