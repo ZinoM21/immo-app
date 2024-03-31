@@ -8,7 +8,8 @@ import { Toaster } from "@/components/ui/sonner"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import "@/styles/globals.css"
-
+import { ClerkProvider } from "@clerk/nextjs"
+import { deDE } from "@clerk/localizations"
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -73,22 +74,31 @@ export const metadata = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-          fontHeading.variable
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <Analytics />
-          <Toaster richColors />
-          <TailwindIndicator />
-        </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "black",
+        },
+      }}
+      localization={deDE}
+    >
+      <html lang="en" suppressHydrationWarning>
+        <head />
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            fontSans.variable,
+            fontHeading.variable
+          )}
+        >
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+            <Analytics />
+            <Toaster richColors />
+            <TailwindIndicator />
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
