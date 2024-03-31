@@ -10,6 +10,8 @@ export const metadata = {
   title: "Dashboard",
 }
 
+export const revalidate = 10
+
 export default async function DashboardPage() {
   // const user = await getCurrentUser()
 
