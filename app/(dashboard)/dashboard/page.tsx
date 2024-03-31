@@ -5,6 +5,7 @@ import { DashboardHeader } from "@/components/header"
 import { ExposeCreateButton } from "@/components/post-create-button"
 import { DashboardShell } from "@/components/shell"
 import { db } from "@/lib/db"
+import { unstable_noStore as noStore } from "next/cache"
 
 export const metadata = {
   title: "Dashboard",
@@ -16,7 +17,7 @@ export default async function DashboardPage() {
   // if (!user) {
   //   redirect(authOptions?.pages?.signIn || "/login")
   // }
-
+  noStore()
   const exposes = await db.expose.findMany({
     // where: {
     //   authorId: user.id,
@@ -45,7 +46,7 @@ export default async function DashboardPage() {
           <div className="divide-y divide-border rounded-md border">
             {exposes.map((expose) => (
               // <PostItem key={post.id} post={post} />
-              <div>
+              <div key={expose.id}>
                 {expose.title}
 
                 <Link href={`/exposes/${expose.id}`}>Ansehen</Link>
