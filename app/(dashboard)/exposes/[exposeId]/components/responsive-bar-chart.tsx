@@ -1,11 +1,12 @@
 "use client"
 
+import { DataPoint } from "@/app/(dashboard)/exposes/[exposeId]/page"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 export function ResponsiveBarChart({
   data,
 }: {
-  data: { name: string; total: number }[]
+  data: DataPoint[]
 }) {
   // CLIENT COMPONENT
   return (
@@ -26,7 +27,7 @@ export function ResponsiveBarChart({
           tickFormatter={(value) => `$${value}`}
         />
         <Bar
-          dataKey="total"
+          dataKey="price"
           fill="currentColor"
           radius={[4, 4, 0, 0]}
           className="fill-primary"

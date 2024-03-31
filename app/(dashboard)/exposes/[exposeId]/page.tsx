@@ -1,70 +1,65 @@
-import { notFound, redirect } from "next/navigation"
 import { Expose, User } from "@prisma/client"
+import { notFound } from "next/navigation"
 
 // import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 // import { getCurrentUser } from "@/lib/session"
 // import { Editor } from "@/components/editor"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import Chat from "@/components/chat"
-import { ResponsiveBarChart } from "@/components/expose/expose-charts"
+import { ResponsiveBarChart } from "@/app/(dashboard)/exposes/[exposeId]/components/responsive-bar-chart"
 import { DashboardHeader } from "@/components/header"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Icons } from "@/components/icons"
+import { ResponsiveLineChart } from "./components/responsive-line-chart"
 
-const data = [
+const data: DataPoint[] = [
   {
     name: "Jan",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Feb",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Mar",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Apr",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "May",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Jun",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Jul",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Aug",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Sep",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Oct",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
   {
     name: "Dec",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    price: Math.floor(Math.random() * 5000) + 1000,
   },
 ]
 
@@ -77,9 +72,9 @@ async function getExposeForUser(exposeId: Expose["id"], userId?: User["id"]) {
   })
 }
 
-interface DataPoint {
+export interface DataPoint {
   name: string
-  total: number
+  price: number
 }
 
 const generateChartData = (price: number, rent: number): DataPoint[] => {
@@ -90,7 +85,7 @@ const generateChartData = (price: number, rent: number): DataPoint[] => {
   while (amount >= 0) {
     const dataPoint: DataPoint = {
       name: `${year}`,
-      total: amount,
+      price: amount,
     }
     data.push(dataPoint)
     amount = price - rent * 12 * year
@@ -140,7 +135,9 @@ export default async function EditorPage({ params }: EditorPageProps) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${expose.price}</div>
+            <div className="text-2xl font-bold">
+              {expose.price.toLocaleString("de-DE")} €
+            </div>
             <p className="text-xs text-muted-foreground">
               +20.1% from last month
             </p>
@@ -165,7 +162,9 @@ export default async function EditorPage({ params }: EditorPageProps) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${expose.rent}</div>
+            <div className="text-2xl font-bold">
+              {expose.rent.toLocaleString("de-DE")} €
+            </div>
             <p className="text-xs text-muted-foreground">
               +180.1% from last month
             </p>
@@ -174,7 +173,8 @@ export default async function EditorPage({ params }: EditorPageProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Größe</CardTitle>
-            <svg
+            <Icons.size className="size-4 text-muted-foreground" />
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
@@ -186,10 +186,10 @@ export default async function EditorPage({ params }: EditorPageProps) {
             >
               <rect width="20" height="14" x="2" y="5" rx="2" />
               <path d="M2 10h20" />
-            </svg>
+            </svg> */}
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{expose.size}m^2</div>
+            <div className="text-2xl font-bold">{expose.size} m²</div>
             <p className="text-xs text-muted-foreground">
               +19% from last month
             </p>
@@ -225,7 +225,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
             <CardTitle>Faktor</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveBarChart data={factorData} />
+            <ResponsiveLineChart data={factorData} />
           </CardContent>
         </Card>
 
@@ -234,7 +234,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
             <CardTitle>Rendite</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveBarChart data={data} />
+            <ResponsiveLineChart data={data} />
           </CardContent>
         </Card>
 

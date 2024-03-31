@@ -2,7 +2,7 @@ import { Metadata } from "next"
 
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/header"
-import { ExposeCreateButton } from "@/components/post-create-button"
+// import { ExposeCreateButton } from "@/components/post-create-button"
 import { DashboardShell } from "@/components/shell"
 
 export const metadata: Metadata = {
@@ -101,7 +101,7 @@ export default function StartPage() {
       </div> */}
       <DashboardShell>
         <DashboardHeader heading="Posts" text="Create and manage posts.">
-          <ExposeCreateButton />
+          {/* <ExposeCreateButton /> */}
         </DashboardHeader>
         <div>
           {/* {posts?.length ? (
@@ -117,7 +117,7 @@ export default function StartPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any posts yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <ExposeCreateButton variant="outline" />
+            {/* <ExposeCreateButton variant="outline" /> */}
           </EmptyPlaceholder>
           {/* )} */}
         </div>

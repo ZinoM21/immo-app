@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils"
 import { exposeCreateSchema } from "@/lib/validations/expose"
 
 import { ROUTES } from "@/config/api-routes"
-import { Loader2 } from "lucide-react"
 import { useState } from "react"
 import {
   Form,
@@ -29,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select"
+import { Icons } from "../icons"
 
 interface CreateExposeFormProps extends React.HTMLAttributes<HTMLFormElement> {}
 
@@ -243,7 +243,7 @@ export function CreateExposeForm({
           disabled={isPending}
         >
           {isPending ? (
-            <Loader2 className="mr-2 size-4 animate-spin" />
+            <Icons.spinner className="mr-2 size-4 animate-spin" />
           ) : (
             "Exposé erstellen"
           )}
