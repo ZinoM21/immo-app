@@ -62,7 +62,7 @@ export function CreateExposeForm({
     setIsPending(true)
     try {
       const expose = await createPost(values)
-      // router.refresh()
+      router.refresh() // With Next13's caching, this is the best option to revalidate so far
       router.push(`/exposes/${expose.id}`)
       toast.success("Exposé erstellt.")
     } catch (error) {

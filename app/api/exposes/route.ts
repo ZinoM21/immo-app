@@ -3,7 +3,6 @@ import * as z from "zod"
 
 import { db } from "@/lib/db"
 import { exposeCreateSchema } from "@/lib/validations/expose"
-import { revalidatePath } from "next/cache"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
@@ -40,8 +39,6 @@ export async function POST(req: NextRequest) {
         id: true,
       },
     })
-
-    revalidatePath("/dashboard")
 
     return new NextResponse(JSON.stringify(expose))
   } catch (error) {
