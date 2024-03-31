@@ -1,5 +1,5 @@
 {
-  "name": "taxonomy",
+  "name": "immo-app",
   "version": "0.2.0",
   "private": true,
   "author": {
@@ -58,7 +58,7 @@
     "cmdk": "^0.1.22",
     "date-fns": "^3.3.1",
     "lucide-react": "^0.338.0",
-    "next": "^14.1.0",
+    "next": "latest",
     "next-auth": "^4.24.6",
     "next-themes": "^0.2.1",
     "openai": "^4.29.0",
