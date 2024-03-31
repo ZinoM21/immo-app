@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
-import * as React from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
@@ -12,6 +11,9 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { exposeCreateSchema } from "@/lib/validations/expose"
 
+import { ROUTES } from "@/config/api-routes"
+import { Loader2 } from "lucide-react"
+import { useState } from "react"
 import {
   Form,
   FormControl,
@@ -28,106 +30,57 @@ import {
   SelectValue,
 } from "../ui/select"
 
-interface CreateExposeFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface CreateExposeFormProps extends React.HTMLAttributes<HTMLFormElement> {}
 
-type FormData = z.infer<typeof exposeCreateSchema>
+type ExposeFormValues = z.infer<typeof exposeCreateSchema>
 
 export function CreateExposeForm({
   className,
   ...props
 }: CreateExposeFormProps) {
-  const formMethods = useForm<FormData>({
+  const router = useRouter()
+  const [isPending, setIsPending] = useState(false)
+
+  const formMethods = useForm<ExposeFormValues>({
     resolver: zodResolver(exposeCreateSchema),
   })
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = formMethods
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const router = useRouter()
+  const { control, handleSubmit } = formMethods
 
-  async function onClick() {
-    setIsLoading(true)
-
-    const response = await fetch("/api/posts", {
+  const createPost = async (values: ExposeFormValues) => {
+    const response = await fetch(ROUTES.CREATE_EXPOSE, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        title: "Untitled Post",
-      }),
+      body: JSON.stringify(values),
     })
-
-    setIsLoading(false)
-
-    if (!response?.ok) {
-      if (response.status === 402) {
-        return toast.error("Limit of 3 posts reached.", {
-          description: "Please upgrade to the PRO plan.",
-        })
-      }
-
-      return toast.error("Something went wrong.", {
-        description: "Your post was not created. Please try again.",
-      })
-    }
-
-    const post = await response.json()
-
-    // This forces a cache invalidation.
-    router.refresh()
-
-    router.push(`/editor/${post.id}`)
+    const expose = await response.json()
+    return expose
   }
 
-  async function onSubmit(data: FormData) {
-    setIsLoading(true)
-
-    const response = await fetch("/api/exposes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-
-    setIsLoading(false)
-
-    if (!response?.ok) {
-      // if (response.status === 402) {
-      //   return toast({
-      //     title: "Limit of 3 posts reached.",
-      //     description: "Please upgrade to the PRO plan.",
-      //     variant: "destructive",
-      //   })
-      // }
-
-      return toast.error("Something went wrong.", {
-        description: "Your exposé was not created. Please try again.",
+  const onSubmit = async (values: z.infer<typeof exposeCreateSchema>) => {
+    setIsPending(true)
+    try {
+      const expose = await createPost(values)
+      // router.refresh()
+      router.push(`/exposes/${expose.id}`)
+      toast.success("Exposé erstellt.")
+    } catch (error) {
+      console.error(error)
+      toast.error("Something went wrong.", {
+        description: `Your exposé was not created. ${error.message}`,
       })
     }
-
-    const expose = await response.json()
-
-    // This forces a cache invalidation.
-    router.refresh()
-
-    router.push(`/exposes/${expose.id}`)
-
-    // if (!signInResult?.ok) {
-    //   return toast({
-    //     title: "Something went wrong.",
-    //     description: "Your sign in request failed. Please try again.",
-    //     variant: "destructive",
-    //   })
-    // }
+    setIsPending(false)
   }
 
   return (
-    <Form {...formMethods} {...props}>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+    <Form {...formMethods}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={cn("flex flex-col gap-2", className)}
+        {...props}
+      >
         <FormField
           control={control}
           name="title"
@@ -287,9 +240,13 @@ export function CreateExposeForm({
             "mt-4",
             "justify-center"
           )}
-          disabled={isLoading}
+          disabled={isPending}
         >
-          Exposé erstellen
+          {isPending ? (
+            <Loader2 className="mr-2 size-4 animate-spin" />
+          ) : (
+            "Exposé erstellen"
+          )}
         </Button>
       </form>
     </Form>
